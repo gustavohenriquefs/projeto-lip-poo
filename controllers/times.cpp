@@ -13,6 +13,10 @@ std::vector<std::shared_ptr<Jogador>> Time::getJogadores() {
   return this->jogadores;
 }
 
+void Time::adicionarJogador(shared_ptr<Jogador> jogador) {
+  this->jogadores.push_back(jogador);
+}
+
 void Time::setJogadores(std::vector<std::shared_ptr<Jogador>> jogadores) {
   this->jogadores = jogadores;
 }

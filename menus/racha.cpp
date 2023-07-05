@@ -143,6 +143,10 @@ class MenuRacha: public Menu {
         return nullptr;
       }
 
+      void adicionarJogadorLista(string nome, string apelido, int posicao, int nivel) {
+        jogadores.push_back(make_shared<Jogador>(nome, apelido, posicao, nivel));
+      }
+
       void adicionarJogadorLista() {
 
         string nome, apelido;
@@ -195,40 +199,40 @@ class MenuRacha: public Menu {
         
         vector<shared_ptr<Jogador>> jogadoresOrd(this->jogadores);
 
-        sort(jogadoresOrd.begin(), jogadores.end(), [](shared_ptr<Jogador> a, shared_ptr<Jogador> b) {
-          return a.get()->getNivel() > b.get()->getNivel();
+        sort(jogadoresOrd.begin(), jogadoresOrd.end(), [](shared_ptr<Jogador> a, shared_ptr<Jogador> b) {
+          return a.get()->getNivel() >= b.get()->getNivel();
         });
 
-        int quantidadeTime = this->jogadores.size() / 11;
+        int quantidadeTime = jogadoresOrd.size() / 11;
 
-        cout << "Foram formados: " << quantidadeTime << "time" << (quantidadeTime > 1 ? "s" : "" ) << nl << nl;
 
         this->times.assign(quantidadeTime, make_shared<Time>(vector<shared_ptr<Jogador>>(), 0));
 
-
         // distribui os jogadores nos times:
-        for(int numJogador = 0; numJogador < 11; ++ numJogador) {
-          for(int idxTime = 0, idxJogador; idxTime < quantidadeTime; ++ quantidadeTime) {
-            idxJogador = numJogador + idxTime;
-
-            this->times[idxTime].get()->getJogadores()[numJogador] = this->jogadores[idxJogador];
+        for (int numJogador = 0, idxTime = 0; numJogador < jogadoresOrd.size(); ++ numJogador, ++ idxTime) {
+          if (idxTime == quantidadeTime) {
+            idxTime = 0;
           }
+
+          this->times[idxTime].get()->adicionarJogador(jogadoresOrd[numJogador]);
         }
 
-        for(int idxTime = 0, idxJogador; idxTime < quantidadeTime; ++ quantidadeTime) {
-          cout << "--- Time " << idxTime + 1 << "--- " << nl << nl;
+        cout << "Foram formados: " << this->times.size() << " time" << (quantidadeTime > 1 ? "s" : "" ) << nl << nl;
+
+        for(int idxTime = 0, idxJogador; idxTime < this->times.size(); ++ idxTime) {
+          cout << nl << nl << "--- Time " << idxTime + 1 << " --- " << nl << nl;
 
           vector<shared_ptr<Jogador>> timeJogadores = this->times[idxTime].get()->getJogadores();
           
-          for(int numJogador = 0; numJogador < 11; ++ numJogador) {
-            idxJogador = numJogador + idxTime;
-
+          for(int numJogador = 0; numJogador < timeJogadores.size(); ++ numJogador) {
             Jogador * jogador = timeJogadores[numJogador].get();
 
             cout << numJogador + 1 << " - " << jogador->toString() << nl;
           }
 
-          this->pausarTerminal();
         }
+
+        cin.ignore();
+        this->pausarTerminal();
       }
 };

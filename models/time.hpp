@@ -30,5 +30,7 @@ class Time
 
     void setJogadores(std::vector<std::shared_ptr<Jogador>> jogadores);
 
+    void adicionarJogador(shared_ptr<Jogador> Jogador);
+
     std::vector<std::shared_ptr<Jogador>> getJogadores();
 };

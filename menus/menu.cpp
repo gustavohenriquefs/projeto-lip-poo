@@ -1,12 +1,7 @@
 #include <iostream>
+#include "../_variaveis/global.cpp"
 
 using namespace std;
-
-#ifdef _WIN32
-    #define CLEAR_COMMAND "cls"
-#else
-    #define CLEAR_COMMAND "clear"
-#endif
 
 class Menu {
   public:
@@ -32,7 +27,7 @@ class Menu {
 
   void reload() {
     try {
-      system("serve.bat");
+      system(RELOAD_FILE);
     } catch (...) {
       std::cout << "O arquivo não existe, ou não é compatível com o SO." << nl;
     }
