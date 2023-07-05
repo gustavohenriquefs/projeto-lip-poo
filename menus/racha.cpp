@@ -205,7 +205,6 @@ class MenuRacha: public Menu {
 
         int quantidadeTime = jogadoresOrd.size() / 11;
 
-
         this->times.assign(quantidadeTime, make_shared<Time>(vector<shared_ptr<Jogador>>(), 0));
 
         // distribui os jogadores nos times:
@@ -217,7 +216,7 @@ class MenuRacha: public Menu {
           this->times[idxTime].get()->adicionarJogador(jogadoresOrd[numJogador]);
         }
 
-        cout << "Foram formados: " << this->times.size() << " time" << (quantidadeTime > 1 ? "s" : "" ) << nl << nl;
+        cout << "Foram formados: " << this->times.size() << " time" << (quantidadeTime > 1 ? "s" : "" );
 
         for(int idxTime = 0, idxJogador; idxTime < this->times.size(); ++ idxTime) {
           cout << nl << nl << "--- Time " << idxTime + 1 << " --- " << nl << nl;
