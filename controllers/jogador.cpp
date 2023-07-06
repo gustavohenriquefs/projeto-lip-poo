@@ -117,3 +117,7 @@ void Jogador::setPosicao(int posicao) {
     break;
   }
 }
+
+Posicao Jogador::getPosicao() {
+  return this->posicao;
+}

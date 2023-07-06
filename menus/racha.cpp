@@ -56,7 +56,7 @@ class MenuRacha: public Menu {
               this->removerJogaodr();
             break;
             case Opcoes::AlocarTime:
-              this->alocarTimes();
+              this->alocarTimeRacha();
             break;
             case Opcoes::ErroEntrada:
               this->pausarTerminal();
@@ -193,42 +193,79 @@ class MenuRacha: public Menu {
         cout << nl;
         pausarTerminal();
       }
-
-      void alocarTimes() {
-        cout << "----- ALOCAR TIMES -----" << nl << nl;
+      
+      void alocarTimeRacha() {
         
-        vector<shared_ptr<Jogador>> jogadoresOrd(this->jogadores);
+        vector<shared_ptr<Jogador>> jogadoresGoleiros(jogadores);
+        
+        sort(jogadoresGoleiros.begin(), jogadoresGoleiros.end(), [](shared_ptr<Jogador> a, shared_ptr<Jogador> b) {
+          return a.get()->getNivel() > b.get()->getNivel();
+        }); 
 
-        sort(jogadoresOrd.begin(), jogadoresOrd.end(), [](shared_ptr<Jogador> a, shared_ptr<Jogador> b) {
-          return a.get()->getNivel() >= b.get()->getNivel();
-        });
+        vector<shared_ptr<Jogador>> goleiros;
+        vector<shared_ptr<Jogador>> jogadoresLinha;
+        
+        for(auto jogador: jogadoresGoleiros) {
+          if(jogador.get()->getPosicao() == Posicao::Goleiro) {
+            goleiros.push_back(jogador);
+          } else {
+            jogadoresLinha.push_back(jogador);
+          }
+        }
 
-        int quantidadeTime = jogadoresOrd.size() / 11;
+        bool limitadoPorGoleiros = false;
+        int quantidadeMaxTimes = 0;
 
-        this->times.assign(quantidadeTime, make_shared<Time>(vector<shared_ptr<Jogador>>(), 0));
+        if((int)goleiros.size() < (int)jogadoresLinha.size() / 10) {
+          limitadoPorGoleiros = true;
+          quantidadeMaxTimes = goleiros.size();
+        } else {
+          quantidadeMaxTimes = jogadoresLinha.size() / 10;
+        }
 
-        // distribui os jogadores nos times:
-        for (int numJogador = 0, idxTime = 0; numJogador < jogadoresOrd.size(); ++ numJogador, ++ idxTime) {
-          if (idxTime == quantidadeTime) {
+        vector<shared_ptr<Time>> times(quantidadeMaxTimes);
+
+        for(int i = 0; i < quantidadeMaxTimes; ++ i) {
+          times[i] = make_shared<Time>(vector<shared_ptr<Jogador>>(), i + 1);
+        }
+      
+        for(int i = 0, idxTime = 0; i < jogadoresLinha.size(); ++ i) {
+          if(idxTime == quantidadeMaxTimes) {
             idxTime = 0;
           }
 
-          this->times[idxTime].get()->adicionarJogador(jogadoresOrd[numJogador]);
+          if(jogadoresLinha[i].get()->getPosicao() == Posicao::Linha) {
+            times[idxTime].get()->adicionarJogador(jogadoresLinha[i]);
+            ++ idxTime;
+          }
         }
 
-        cout << "Foram formados: " << this->times.size() << " time" << (quantidadeTime > 1 ? "s" : "" );
+        if(limitadoPorGoleiros) {
+          for(int i = 0, idxTime = 0; i < goleiros.size(); ++ i) {
+            if(idxTime == quantidadeMaxTimes) {
+              idxTime = 0;
+            }
 
-        for(int idxTime = 0, idxJogador; idxTime < this->times.size(); ++ idxTime) {
-          cout << nl << nl << "--- Time " << idxTime + 1 << " --- " << nl << nl;
-
-          vector<shared_ptr<Jogador>> timeJogadores = this->times[idxTime].get()->getJogadores();
-          
-          for(int numJogador = 0; numJogador < timeJogadores.size(); ++ numJogador) {
-            Jogador * jogador = timeJogadores[numJogador].get();
-
-            cout << numJogador + 1 << " - " << jogador->toString() << nl;
+            times[idxTime].get()->adicionarJogador(goleiros[i]);
+            ++ idxTime;
           }
+        } else {
+          for(int i = 0, idxTime = 0; i < goleiros.size(); ++ i) {
+            if(idxTime == quantidadeMaxTimes) {
+              idxTime = 0;
+            }
 
+            times[idxTime].get()->adicionarJogador(goleiros[i]);
+            ++ idxTime;
+          }
+        }
+
+        for(auto time: times) {
+          cout << nl << "=== TIME " << time.get()->getNumero() << " ===" << nl << nl;
+          
+          for(auto jogador: time.get()->getJogadores()) {
+            cout << jogador.get()->toString() << nl;
+          }
         }
 
         cin.ignore();
