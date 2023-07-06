@@ -33,16 +33,15 @@ int main() {
   MenuRacha * menu = new MenuRacha();
 
   // MOCK
-
-  menu->adicionarJogadorLista("Joao", "Apelido 1", Posicao::Linha, 5);
-  menu->adicionarJogadorLista("Jogador 2", "Apelido 2", Posicao::Goleiro, 4);
-  menu->adicionarJogadorLista("Jogador 3", "Apelido 3", Posicao::Linha, 3);
-  menu->adicionarJogadorLista("Jogador 4", "Apelido 4", Posicao::Linha, 4);
-  menu->adicionarJogadorLista("Jogador 5", "Apelido 5", Posicao::Goleiro, 2);
-  menu->adicionarJogadorLista("Jogador 6", "Apelido 6", Posicao::Linha, 3);
-  menu->adicionarJogadorLista("Jogador 7", "Apelido 7", Posicao::Linha, 5);
-  menu->adicionarJogadorLista("Jogador 8", "Apelido 8", Posicao::Goleiro, 4);
-  menu->adicionarJogadorLista("Jogador 9", "Apelido 9", Posicao::Linha, 3);
+  menu->adicionarJogadorLista("Joao",       "Apelido 1", Posicao::Linha, 5);
+  menu->adicionarJogadorLista("Jogador 2",  "Apelido 2", Posicao::Goleiro, 4);
+  menu->adicionarJogadorLista("Jogador 3",  "Apelido 3", Posicao::Linha, 3);
+  menu->adicionarJogadorLista("Jogador 4",  "Apelido 4", Posicao::Linha, 4);
+  menu->adicionarJogadorLista("Jogador 5",  "Apelido 5", Posicao::Goleiro, 2);
+  menu->adicionarJogadorLista("Jogador 6",  "Apelido 6", Posicao::Linha, 3);
+  menu->adicionarJogadorLista("Jogador 7",  "Apelido 7", Posicao::Linha, 5);
+  menu->adicionarJogadorLista("Jogador 8",  "Apelido 8", Posicao::Goleiro, 4);
+  menu->adicionarJogadorLista("Jogador 9",  "Apelido 9", Posicao::Linha, 3);
   menu->adicionarJogadorLista("Jogador 10", "Apelido 10", Posicao::Linha, 4);
   menu->adicionarJogadorLista("Jogador 11", "Apelido 11", Posicao::Goleiro, 2);
   menu->adicionarJogadorLista("Jogador 12", "Apelido 12", Posicao::Linha, 3);

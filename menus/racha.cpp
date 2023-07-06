@@ -172,7 +172,7 @@ class MenuRacha: public Menu {
         cout << "Insira o apelido: "; 
         getline(cin, apelido);
         
-        cout << "Insira o nivel: [1 - 5]: "; 
+        cout << "Insira o nivel: [ 1 para Canela, 2 para Frango, 3 para Novato, 4 para Craque, 5 para DoutrinadorDoRacha ]: "; 
         scanf("%d", &nivel);
 
         jogadores.push_back(make_shared<Jogador>(nome, apelido, posicao, nivel));
